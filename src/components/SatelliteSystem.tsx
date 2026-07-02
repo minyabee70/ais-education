@@ -37,7 +37,7 @@ export function SatelliteSystem({ active }: { active: boolean }) {
         
         {/* Coverage Cone */}
         {active && (
-          <Cone args={[0.8, orbitRadius - 2, 32]} position={[0, 0, (orbitRadius - 2)/2]} rotation={[Math.PI/2, 0, 0]}>
+          <Cone args={[0.8, orbitRadius - 2, 32]} position={[0, 0, -(orbitRadius - 2)/2]} rotation={[-Math.PI/2, 0, 0]}>
             <meshBasicMaterial color="#facc15" transparent opacity={0.15} depthWrite={false} side={THREE.DoubleSide} />
           </Cone>
         )}
