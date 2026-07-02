@@ -10,6 +10,7 @@
   --danger: #ef4444;
   --font-sans: 'Pretendard', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --font-scale: 1;
 }
 
 * {
@@ -25,6 +26,8 @@ body, html, #root {
   color: #f8fafc;
   font-family: var(--font-sans);
   overflow: hidden;
+  /* Base font size controlled by --font-scale variable set inline on root div */
+  font-size: calc(16px * var(--font-scale, 1));
 }
 
 .glass-panel {

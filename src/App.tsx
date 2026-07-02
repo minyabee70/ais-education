@@ -19,6 +19,16 @@ function App() {
   const [topic, setTopic] = useState('basic');
   const [spoofActive, setSpoofActive] = useState(false);
   const [rescueActive, setRescueActive] = useState(false);
+  const [fontScale, setFontScale] = useState(1.0);
+
+  const adjustFont = (delta: number) => {
+    setFontScale(prev => Math.min(2.0, Math.max(0.6, +(prev + delta).toFixed(1))));
+  };
+
+  // Push the scale to :root so all rem/em units update globally
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--font-scale', String(fontScale));
+  }, [fontScale]);
 
   const activeTopic = TOPICS.find(t => t.id === topic);
 
@@ -87,7 +97,44 @@ function App() {
         </Canvas>
 
         {/* Global Controls */}
-        <div style={{ position: 'absolute', bottom: '20px', right: '20px', display: 'flex', gap: '10px' }}>
+        <div style={{ position: 'absolute', bottom: '20px', right: '20px', display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {/* Font Size Controls */}
+          <div className="glass-panel" style={{ padding: '6px 10px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
+            <span style={{ color: '#94a3b8', fontSize: '0.75rem', letterSpacing: '1px' }}>글자 크기</span>
+            <button
+              onClick={() => adjustFont(-0.1)}
+              title="글자 축소"
+              style={{
+                background: 'rgba(56,189,248,0.15)', border: '1px solid #38bdf8',
+                color: '#38bdf8', borderRadius: '5px', width: '28px', height: '28px',
+                cursor: 'pointer', fontSize: '16px', lineHeight: 1, display: 'flex',
+                alignItems: 'center', justifyContent: 'center', fontWeight: 'bold',
+              }}
+            >−</button>
+            <span style={{ color: '#f8fafc', minWidth: '36px', textAlign: 'center', fontSize: '0.85rem' }}>
+              {Math.round(fontScale * 100)}%
+            </span>
+            <button
+              onClick={() => adjustFont(0.1)}
+              title="글자 확대"
+              style={{
+                background: 'rgba(56,189,248,0.15)', border: '1px solid #38bdf8',
+                color: '#38bdf8', borderRadius: '5px', width: '28px', height: '28px',
+                cursor: 'pointer', fontSize: '16px', lineHeight: 1, display: 'flex',
+                alignItems: 'center', justifyContent: 'center', fontWeight: 'bold',
+              }}
+            >+</button>
+            <button
+              onClick={() => setFontScale(1.0)}
+              title="초기화"
+              style={{
+                background: 'transparent', border: '1px solid #475569',
+                color: '#94a3b8', borderRadius: '5px', padding: '0 8px', height: '28px',
+                cursor: 'pointer', fontSize: '11px',
+              }}
+            >초기화</button>
+          </div>
+
           <div className="glass-panel" style={{ padding: '8px 15px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: '#4ade80', borderRadius: '50%', boxShadow: '0 0 10px #4ade80' }}></span>
             SYSTEM ONLINE
