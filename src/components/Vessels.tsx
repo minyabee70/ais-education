@@ -36,18 +36,17 @@ export function Vessels({ topic, spoofActive }: { topic: string, spoofActive: bo
 function Vessel({ data }: { data: any }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHover] = useState(false);
-  const [pos, setPos] = useState({ lat: data.lat, lon: data.lon });
+  const posRef = useRef({ lat: data.lat, lon: data.lon });
   const r = 2.01;
 
   useFrame(() => {
-    // Move vessel
-    const newLat = pos.lat + Math.cos(data.heading) * data.speed * 0.1;
-    const newLon = pos.lon + Math.sin(data.heading) * data.speed * 0.1;
-    setPos({ lat: newLat, lon: newLon });
+    // Move vessel without triggering React re-renders
+    posRef.current.lat += Math.cos(data.heading) * data.speed * 0.1;
+    posRef.current.lon += Math.sin(data.heading) * data.speed * 0.1;
 
     if (meshRef.current) {
-      const phi = (90 - newLat) * (Math.PI / 180);
-      const theta = (newLon + 180) * (Math.PI / 180);
+      const phi = (90 - posRef.current.lat) * (Math.PI / 180);
+      const theta = (posRef.current.lon + 180) * (Math.PI / 180);
       meshRef.current.position.x = -(r * Math.sin(phi) * Math.cos(theta));
       meshRef.current.position.z = (r * Math.sin(phi) * Math.sin(theta));
       meshRef.current.position.y = (r * Math.cos(phi));
