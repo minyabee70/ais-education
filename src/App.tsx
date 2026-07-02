@@ -64,23 +64,13 @@ function App() {
 
       {/* Right 3D Canvas */}
       <div style={{ flex: 1, position: 'relative' }}>
-        <Canvas camera={{ position: [0, 1.5, 4], fov: 45 }}>
+        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
           <color attach="background" args={['#020617']} />
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 3, 5]} intensity={1.5} />
           <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
           
-          <EarthGlobe />
-          <Vessels topic={topic} spoofActive={spoofActive} />
-          {(topic === 'satellite' || topic === 'flow') && <SatelliteSystem active={topic === 'satellite'} />}
-          
-          <OrbitControls 
-            enablePan={false} 
-            minDistance={2.5} 
-            maxDistance={8}
-            autoRotate={topic !== 'satellite'}
-            autoRotateSpeed={0.5}
-          />
+          <SceneManager topic={topic} spoofActive={spoofActive} />
         </Canvas>
 
         {/* Global Controls */}
@@ -93,6 +83,34 @@ function App() {
       </div>
 
     </div>
+  );
+}
+
+// Manages which scene to render and handles camera transitions
+import { useFrame } from '@react-three/fiber';
+import { FlowScene } from './components/scenes/FlowScene';
+import { ProtocolScene } from './components/scenes/ProtocolScene';
+import { ClassCompareScene } from './components/scenes/ClassCompareScene';
+import { SpoofingScene } from './components/scenes/SpoofingScene';
+import { SatelliteScene } from './components/scenes/SatelliteScene';
+import * as THREE from 'three';
+
+function SceneManager({ topic, spoofActive }: { topic: string, spoofActive: boolean }) {
+  useFrame((state) => {
+    // Smooth camera transition between 2D map views and 3D globe view
+    const targetPos = topic === 'satellite' ? new THREE.Vector3(0, 1.5, 4) : new THREE.Vector3(0, 0, 8);
+    state.camera.position.lerp(targetPos, 0.05);
+    state.camera.lookAt(0, 0, 0);
+  });
+
+  return (
+    <>
+      {topic === 'flow' && <FlowScene />}
+      {topic === 'protocol' && <ProtocolScene />}
+      {topic === 'class' && <ClassCompareScene />}
+      {topic === 'satellite' && <SatelliteScene />}
+      {topic === 'security' && <SpoofingScene spoofActive={spoofActive} />}
+    </>
   );
 }
 
