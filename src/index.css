@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+:root {
+  --bg-dark: #020617;
+  --panel-bg: rgba(15, 23, 42, 0.7);
+  --panel-border: rgba(56, 189, 248, 0.2);
+  --primary-cyan: #38bdf8;
+  --primary-green: #4ade80;
+  --danger: #ef4444;
+  --font-sans: 'Pretendard', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-dark);
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+}
+
+.topic-btn {
+  width: 100%;
+  text-align: left;
+  padding: 12px 15px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #94a3b8;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.topic-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+}
+
+.topic-btn.active {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+  color: var(--primary-cyan);
+  box-shadow: inset 4px 0 0 var(--primary-cyan);
+}
+
+.ship-popup {
+  background: rgba(2, 6, 23, 0.9);
+  border: 1px solid var(--primary-cyan);
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  pointer-events: none;
+  width: 220px;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  font-size: 0.85rem;
+}
+
+.ship-popup h3 { margin-bottom: 8px; font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px; }
+.data-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.data-row .label { color: #94a3b8; }
+.font-mono { font-family: var(--font-mono); }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
